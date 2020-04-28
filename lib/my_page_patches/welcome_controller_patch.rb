@@ -4,7 +4,12 @@ module MyPagePatches
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        before_filter :landing_page_index, :only => :index
+        unloadable
+        if respond_to? :before_action
+          before_action :landing_page_index, :only => :index
+        else
+          before_filter :landing_page_index, :only => :index
+        end
       end
     end
 
